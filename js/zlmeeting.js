@@ -23,7 +23,7 @@
 
     //     }
     // });
-( function( window ) {
+var Zl = ( function() {
 
     'use strict';
 
@@ -31,7 +31,7 @@
       return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
     }
 
-    var hasClass, addClass, removeClass;
+    var hasClass, addClass, removeClass, $info = $('.iNfo');
 
     if ( 'classList' in document.documentElement ) {
       hasClass = function( elem, c ) {
@@ -79,6 +79,13 @@
     } else {
       window.zLsriptClass = zLsriptClass;
     }
+
+    $info.on('click', 'button',function(){
+        $('.mask-zl').addClass('gomask');
+        setTimeout(function(){ $('.mask-zl').hide(); },501);
+        $info.addClass('goscale');
+    });
+
 
     // toggle meeting
     var layoutZL = document.getElementById( 'LOUtZl' ),
@@ -139,6 +146,8 @@
 
         layoutZL.querySelector( 'a.bL' ).addEventListener( eventtype, backToIntro );
         layoutZL.querySelector( 'a.bR' ).addEventListener( eventtype, backToIntro );
+
+
     }
 
     function reset() {
@@ -148,6 +157,5 @@
 
     }
 
-    init();
-})( window );
-
+   return {init:init};
+})();
