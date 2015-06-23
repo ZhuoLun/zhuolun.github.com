@@ -20,7 +20,7 @@
             <article class="intro">
                 <div class="side sD side-left">
                     <figure class="intro-content">
-                        <p class="reserveStatus booked">最新预定：06月24日{ 08:00 ~ 10:00 }·&nbsp;李小雪</p>
+                        <p id="NEW109" class="reserveStatus booked">最新预定：06月24日{ 08:00 ~ 10:00 }·&nbsp;李小雪</p>
                         <div class="profile"><img src="image/109.jpg" alt="109会议室"/></div>
                         <figcaption>
                             <h3 class="wHa">No. 109</h3>
@@ -31,8 +31,8 @@
                 </div>
                 <div class="side sD side-right">
                     <figure class="intro-content">
-                        <p class="reserveStatus">暂无预定</p>
-                        <div class="profile"><img src="image/109.jpg" alt="111会议室"/></div>
+                        <p id="NEW111" class="reserveStatus">暂无预定</p>
+                        <div class="profile"><img src="image/111.jpg" alt="111会议室"/></div>
                         <figcaption>
                             <h3 class="wHa">No. 111</h3>
                             <span class="T">【产品/市场部】</span>
@@ -42,8 +42,8 @@
                 </div>
                 <div class="side sD side-left">
                     <figure class="intro-content">
-                        <p class="reserveStatus">暂无预定</p>
-                        <div class="profile"><img src="image/109.jpg" alt="119会议室"/></div>
+                        <p id="NEW119" class="reserveStatus">暂无预定</p>
+                        <div class="profile"><img src="image/119.jpg" alt="119会议室"/></div>
                         <figcaption>
                             <h3 class="wHa">No. 119</h3>
                             <span class="T">【COACH/师资运营部】</span>
@@ -53,8 +53,8 @@
                 </div>
                 <div class="side sD side-right">
                     <figure class="intro-content">
-                        <p class="reserveStatus">暂无预定</p>
-                        <div class="profile"><img src="image/109.jpg" alt="120会议室"/></div>
+                        <p id="NEW120" class="reserveStatus">暂无预定</p>
+                        <div class="profile"><img src="image/120.jpg" alt="120会议室"/></div>
                         <figcaption>
                             <h3 class="wHa">No. 120</h3>
                             <span class="T">【财务/行政/人事部】</span>
@@ -63,24 +63,48 @@
                     <div class="ZL-overlay">&nbsp;</div>
                 </div>
             </article>
-            <article class="page page-left" data-roomid="109">
+            <article class="page page-left" id="NO109">
                 <div class="innerZl">
-                    111111111
+                    <h2 class="NowTime"></h2>
+                    <div class="meeting-list">
+                        <ul>
+                            <li class="infoLi">
+                                <time class="tmt" >
+                                    <span class="dateMeeting">6月18日</span>
+                                    <span class="timerangeMeeting">18:00 ~ 20:00</span>
+                                </time>
+                                <div class="select-status">
+                                    <div class="hlevel">紧急</div>
+                                    <div class="">随意</div>
+                                </div>
+                                <div class="tmt-status novalue">选择状态</div>
+                                <div class="content f">
+                                    <h2 class="sor"><label>会议发起人 ：</label><input type="text" maxlength="3" placeholder="请输入发起人的真实姓名" class="tX nameU"/></h2>
+                                    <h2><label>参会人员 ：</label><input type="text" placeholder="请输入参会人员的真实姓名，逗号隔开" class="tX nameu"/></h2>
+                                    <h2><label>会议主题 ：</label><input type="text" placeholder="请输入此次会议的主题" class="tX nameTitle"/></h2>
+                                    <h2><label >摘要 (选填)：</label><input type="text" placeholder="请输入此次会议的摘要" class="tX desc"/></h2>
+                                    <h2><label class="additional">附加 (选填)：</label><textarea placeholder="此处可以填写本次会议的备注或者特别说明..." class="tX remarks"></textarea></h2>
+                                    <input type="button" value="马上预定" class="btnpost"/>
+                                    <div style="clear:both;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </article>
-            <article class="page page-right" data-roomid="111">
+            <article class="page page-right" id="NO111">
                 <div class="innerZl">
-                    22222222222
+                    <h2 class="NowTime"></h2>
                 </div>
             </article>
-            <article class="page page-left" data-roomid="119">
+            <article class="page page-left" id="NO119">
                 <div class="innerZl">
-                    33333333333
+                    <h2 class="NowTime"></h2>
                 </div>
             </article>
-            <article class="page page-right" data-roomid="120">
+            <article class="page page-right" id="NO120">
                 <div class="innerZl">
-                    444444444444
+                    <h2 class="NowTime"></h2>
                 </div>
             </article> 
             <a href="javascript:void(0);" class="back bR" title="返回会议室导航">返回 →</a>
@@ -91,11 +115,11 @@
         <div class="md-content-wuyu">
             <h3>365好老师关于<span>{会议室预定}</span>的说明</h3>
             <div>
-                <p>目前有 109, 111, 119, 120 四个房间的会议室可供大家使用。请认真阅读以下说明。(本产品为SZl业余时间DIY所得，如有任何意见和建议，请火速补充...</p>
+                <p>目前有 109, 111, 119, 120 四个房间的会议室可供大家使用。请认真阅读以下说明。(本产品为Zl业余时间DIY搞之，意见需求神马的，请火速补充...</p>
                 <ul>
-                    <li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
-                    <li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
-                    <li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
+                    <li><strong>无语:</strong>哈哈哈哈</li>
+                    <li><strong>无语:</strong>哈哈哈哈</li>
+                    <li><strong>无语:</strong>无语。。。。</li>
                 </ul>
                 <button id="closef">好，我看明白了</button>
             </div>
@@ -107,7 +131,7 @@
 
 
 
-<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="js/zlmeeting.js"></script>
 <script type="text/javascript">$(function(){Zl.init()})</script>
 </body>
