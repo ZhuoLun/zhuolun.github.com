@@ -7,7 +7,13 @@ var Zl = ( function() {
       return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
     }
 
-    var hasClass, addClass, removeClass, $info = $('.iNfo'), $tX = $('.tX'), $tmt_status = $('.tmt-status');
+    var hasClass, addClass, removeClass, $info = $('.iNfo'), $tX = $('.tX'), $tmt_status = $('.tmt-status'), ua = window.navigator.userAgent.toLowerCase().indexOf('chrome');
+
+    if( ua < 0){
+        alert('目前为beta版本，请使用chrome浏览器。'); 
+        $('body').html('目前为beta版本，请使用chrome浏览器。无语， 哦，无语，哦，不。哦，好吧... ');
+        return false;
+    }
 
     if ( 'classList' in document.documentElement ) {
           hasClass = function( elem, c ) {

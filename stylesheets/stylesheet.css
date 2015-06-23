@@ -11,8 +11,8 @@ body::-webkit-scrollbar-thumb {border-radius: 4px; background-color: #555; backg
 body{ font:1em/1.85623em "Hiragino Sans GB","Century Gothic",system, Arial, Verdana, Tahoma,\5FAE\8F6F\96C5\9ED1; background-color: #333; overflow-y:scroll; color: #fff; }
 article,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block; margin:0; padding:0; }
 a{ color: #ccc; text-decoration: none; }
-.perspective{ perspective:600px; -webkit-perspective:600px; }
-.mask-zl{ position: fixed; width: 100%; opacity: 1; height: 100%; top:0; left: 0; z-index:1000; background-color: rgba(0,0,0,.86); transition:all .5s; -webkit-transition:all .5s; animation:ZlCt .5s forwards .8s ease-in; transform-origin:50% 100%; transform-style:preserve-3d; transition-delay:.8s; }
+.perspective{ perspective:600px; -moz-perspective:600px; -ms-perspective:600px; -webkit-perspective:600px; }
+.mask-zl{ position: fixed; width: 100%; opacity: 1; height: 100%; top:0; left: 0; z-index:1000; background-color: rgba(0,0,0,.86); transition:all .5s; -moz-transition:all .5s; -ms-transition:all .5s; -webkit-transition:all .5s; animation:ZlCt .5s forwards .8s ease-in; -webkit-animation:ZlCt .5s forwards .8s ease-in; -moz-animation:ZlCt .5s forwards .8s ease-in; transform-origin:50% 100%; transform-style:preserve-3d; transition-delay:.8s; }
 .layoutZL{ position: relative; overflow-x:hidden; width: 100%; min-height: 100%; }
 .side, .page{ transition:transform .5s ease-in-out; -webkit-transition:transform .5s ease-in-out; }
 .side{ position: fixed; top:0; z-index: 50; width:25%; height: 100%; text-align: center; -webkit-backface-visibility:hidden; -webkit-user-select: none; }
