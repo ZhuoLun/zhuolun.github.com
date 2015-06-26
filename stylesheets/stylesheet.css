@@ -76,7 +76,8 @@ a{ color: #ccc; text-decoration: none; }
     .md-content-wuyu h3 > span{ margin:0 8px; color:#000; text-shadow:2px 8px 6px rgba(0, 0, 0, 0.31), 0px -5px 35px rgba(255, 255, 255, 0.63); }
     .md-content-wuyu > div{ padding: 15px 40px 30px; margin:0; font-size: 1.45em; }
       .md-content-wuyu > div p{ margin:0; padding:10px 0; }
-      .md-content-wuyu > div ul{ margin:0; padding: 0 0 30px 20px; }
+      .md-content-wuyu > div ul{ margin:0; padding: 0 0 8px 20px; }
+        #newr{ margin-bottom: 1.64em; display: none; }
       .md-content-wuyu > div ul li{ padding:5px 0; }
       .md-content-wuyu > div button{ display: block; margin:0 auto; font-size: .8em; border:none; padding: .6em 1.2em; color: #000; letter-spacing: 1px; text-indent: 1px; cursor: pointer; border-radius: 2px; }
 @keyframes topZl{ 0%{ opacity: 0; transform:translateY(-200%); } 100%{ opacity: 1; transform:translateY(0%); } }

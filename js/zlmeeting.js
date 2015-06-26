@@ -4,12 +4,12 @@ var Zl = ( function() {
     'use strict';
 
     var actionRoomPage = function(){
-        
+
         var hasClass, addClass, removeClass;
 
         function classReg( className ) {
           return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
-        } 
+        }
 
         if ( 'classList' in document.documentElement ) {
               hasClass = function( elem, c ) {
@@ -112,6 +112,7 @@ var Zl = ( function() {
                     zLsriptClass.add( layoutZL, 'close-' + dir );
                     zLsriptClass.add( layoutZL, 'S-zl' );
                     $(layoutZL).find('.side').show();
+                    $('#newr > b').text('').parent().hide();
                 };
 
             layoutZL.querySelector( 'a.bL' ).addEventListener( eventtype, backtoMeetingRoom );
@@ -127,24 +128,32 @@ var Zl = ( function() {
 
     var init = function(){
 
-        var $info = $('.iNfo'), $WuYu = $('.meeting-list > ul'), ua = window.navigator.userAgent.toLowerCase().indexOf('chrome'), Width = window.screen.width;
+        var $info = $('.iNfo'), $WuYu = $('.meeting-list > ul'), ua = window.navigator.userAgent.toLowerCase().indexOf('chrome'), Width = window.screen.width, uri = window.location.search.slice(1), sTr = uri.split('!'), $notice = $('#newr').show().find('b');
 
         if( ua < 0){
-           alert('目前为beta版本，请使用chrome浏览器。'); 
+           alert('目前为beta版本，请使用chrome浏览器。');
            $('body').html('目前为beta版本，请使用chrome浏览器。无语， 哦，无语，哦，不。哦，好吧... ');
            return false;
         }
-        
+
         if( Width <= 1366 ) $('.tmt').css('left','-22px');
+
+        if( uri.length > 0 ){
+             $notice.text("  { 会议室 : "+ sTr[0] +" , 发起人 : "+ decodeURI(sTr[1]) +" }");
+        }else{ 
+            $notice.parent().hide();
+        }
 
         $info.on('click', 'button',function(){
             $('.mask-zl').addClass('gomask');
             setTimeout(function(){ $('.mask-zl').hide(); },501);
             $info.addClass('goscale');
+            var r = window.location.href.indexOf('?');
+            window.history.pushState("","",window.location.href.substr(0,r));
         });
 
         $WuYu.on({
-            focus:function(){ 
+            focus:function(){
                 $(this).parent().addClass('showN');
             },
             blur:function(){
@@ -163,10 +172,10 @@ var Zl = ( function() {
             });
         });
 
-        Lean(); 
-        DatX(); 
-        actionRoomPage(); 
- 
+        Lean();
+        DatX();
+        actionRoomPage();
+
     }
 
     var Lean = function(){
@@ -193,12 +202,12 @@ var Zl = ( function() {
             container = $('.meeting-list > ul'),
             modH = function(Po,DatE,sDate,eDate,status,nameU,nameu,nameTitle,desc,remarks){
                 var sXs,html,Btn;
-                
-                if( !Po ) { 
+
+                if( !Po ) {
                     status == '紧急' ? sXs = 'hlevel">紧急' :  sXs = '">随意';
                     Btn = '<a href="javascript:void(0);" class="tempEdit">修改</a>';
-                }else{ 
-                    sXs = 'novalue">' + status; 
+                }else{
+                    sXs = 'novalue">' + status;
                     Btn = '<input type="button" value="提交预定" class="btnpost"/>';
                 }
 
@@ -206,20 +215,87 @@ var Zl = ( function() {
                 return html;
             };
 
-        function art(e,d){
+        function art(e,d,Con){
+
+            var $NoticeText = $('#NEW' + e), 
+                $contain = $('.lMEet' + e ).parents('.page'), 
+                $zLss, Ginput, $EditT, $tg, $TG, Ix, 
+                $U, $u, $le, $sc, $ks;
+
+            function Process_zl(g,w){
+                    $zLss = $contain.find('.infoLi.false'), Ginput = $zLss.find('.content input,textarea');
+                    $zLss.find('.date-M,.range-S,.range-E,input,textarea').attr({'readOnly':true,'disabled':true});
+                    $zLss.find('.select-status').hide();
+                    $zLss.find('.tmt-status').css('cursor','default');
+                    Ginput.addClass('zl-in');
+
+                    $contain.on('click','a.tempEdit', function(){
+                        var $this = $(this);
+                        $this.text('提交更改').addClass('up-date').parent().find('input,textarea').removeClass('zl-in').removeAttr('readOnly disabled');
+                    });
+
+                    $contain.on('click','[class$="false"] a.tempEdit.up-date', function(){
+                        $tg = $(this).parents('.infoLi.false'), 
+                        $TG = $tg.parent().find('.infoLi.false'), Ix = g[$TG.index($tg)],
+                        $U = $tg.find('.nameU').val().trim().toString(),
+                        $u = $tg.find('.nameu').val().trim().toString(),
+                        $le = $tg.find('.nameTitle').val().trim().toString(),
+                        $sc = $tg.find('.desc').val().trim().toString(),
+                        $ks = $tg.find('.remarks').val().trim().toString();
+                        if( $U == '' ){
+                            alert('会议发起人姓名不允许为空');
+                            return false;
+                        }else if( !/^[\u4e00-\u9fa5]/.test($tg.find('.nameU').val().trim()) ){
+                            alert('会议发起人姓名只允许使用汉字(或者汉字开头)！');
+                            return false;
+                        }else if( $u == '' ){
+                            alert('参会人员姓名不允许为空');
+                            return false;
+                        }else if( $le == '' ){
+                            alert('会议主题不允许为空');
+                            return false;
+                        }else{
+                            //if( Ix.id == 'undefined' ){ alert(JSON.stringify(Ix)) }
+                            w.get( Ix.id ,{
+                                success:function(ZL){
+                                    ZL.set('who_initiate_meeting', $U);
+                                    ZL.set('who_join_meeting', $u);
+                                    ZL.set('Title_meeting', $le);
+                                    ZL.set('desc_meeting', $sc);
+                                    ZL.set('attach_meeting', $ks);
+                                    ZL.save();
+                                    if( $tg.prev().hasClass('true') ){
+                                        var text = $NoticeText.text(),
+                                            t = text.substr(0,text.indexOf('·') + 1);
+                                        $NoticeText.text(t +' '+ $U);
+                                    }
+                                },
+                                error:function(error){
+                                    alert("错误提示: " + error.code + "-" + error.message);
+                                }
+                            });
+                            $(this).removeClass('up-date').text('修改').parent().find('input,textarea').addClass('zl-in').attr({'readOnly':true,'disabled':true});
+                        }
+
+                    });
+            }
+
             $('#NO' + e).on('click',':button',function(){
 
                 var btnReserve = $(this),
                     $L = btnReserve.parents('.infoLi'),
                     dateMeeting = $L.find('.date-M'),
                     timerangeMeeting_s = $L.find('.timerangeMeeting .range-S'),
-                    timerangeMeeting_e = $L.find('.timerangeMeeting .range-E'), 
-                    tmt_status = $L.find('.tmt-status'), 
+                    timerangeMeeting_e = $L.find('.timerangeMeeting .range-E'),
+                    tmt_status = $L.find('.tmt-status'),
                     nameU = $L.find('.nameU'),
-                    nameu = $L.find('.nameu'), 
+                    nameu = $L.find('.nameu'),
                     nameTitle = $L.find('.nameTitle'),
-                    desc = $L.find('.desc'), 
-                    remarks = $L.find('.remarks');
+                    desc = $L.find('.desc'),
+                    remarks = $L.find('.remarks'),
+                    $isE = $('.lMEet' + e ),
+                    Json = {time:new Date().getTime()},
+                    url = window.location.href;
 
                 if( dateMeeting.val().trim() == '' ){
                     alert('开会日期不能为空');
@@ -237,7 +313,7 @@ var Zl = ( function() {
                     alert('会议发起人姓名不允许为空');
                     return false;
                 }else if( !/^[\u4e00-\u9fa5]/.test(nameU.val().trim()) ){
-                    alert('会议发起人姓名只允许使用汉字！');
+                    alert('会议发起人姓名只允许使用汉字(或者汉字开头)！');
                     return false;
                 }else if( nameu.val().trim() == '' ){
                     alert('参会人员姓名不允许为空');
@@ -249,13 +325,13 @@ var Zl = ( function() {
 
                     d.save({ date_meeting: dateMeeting.val().trim().toString() , S_time_range_Meeting : timerangeMeeting_s.val().trim().toString() ,
                         E_time_range_Meeting : timerangeMeeting_e.val().trim().toString() ,
-                        status_meeting : tmt_status.text().toString(), 
-                        who_initiate_meeting : nameU.val().trim().toString(), 
-                        who_join_meeting : nameu.val().trim().toString(), 
-                        Title_meeting: nameTitle.val().trim().toString(), 
-                        desc_meeting: desc.val().trim().toString(), 
+                        status_meeting : tmt_status.text().toString(),
+                        who_initiate_meeting : nameU.val().trim().toString(),
+                        who_join_meeting : nameu.val().trim().toString(),
+                        Title_meeting: nameTitle.val().trim().toString(),
+                        desc_meeting: desc.val().trim().toString(),
                         attach_meeting: remarks.val().trim().toString() },{
-                          success:function(Zl_s_iD){
+                        success:function(Zl_s_iD){
                             var zL = Zl_s_iD,
                                 lpo, Ginput, D = zL.get('date_meeting'),
                                 S = zL.get('S_time_range_Meeting'),
@@ -266,105 +342,87 @@ var Zl = ( function() {
                                 T = zL.get('Title_meeting'),
                                 d = zL.get('desc_meeting'),
                                 a = zL.get('attach_meeting');
-                            $('.lMEet' + e ).find('li:first').after(modH(false,D,S,E,St,I,J,T,d,a));
+                            
 
-                            lpo = $('.lMEet' + e ).find('.infoLi.false'), Ginput = lpo.find('.content input,textarea');
-                            lpo.find('.date-M,.range-S,.range-E,input,textarea').attr({'readOnly':true,'disabled':true});
-                            lpo.find('.select-status').hide();
-                            lpo.find('.tmt-status').css('cursor','default');
-                            Ginput.addClass('zl-in');
+                            // if( $isE.find('li.false').length > 0 ){
+                            //     $('.lMEet' + e ).find('li.false:first').before(modH(false,D,S,E,St,I,J,T,d,a));
+                            // }else{
+                            //     $('.lMEet' + e ).find('li.true').after(modH(false,D,S,E,St,I,J,T,d,a));
+                            // }
+
+                            $isE.find('li.true').after(modH(false,D,S,E,St,I,J,T,d,a));
+
+                            Con.find({success:function(wuyu){
+                                Process_zl(wuyu,Con);
+                            }});
+
+                            $NoticeText.addClass('booked').text('最新预定：'+ D +'{ '+ S +' ~ '+ E +' }· ' + I);
+
+                            dateMeeting.val(''); timerangeMeeting_s.val(''); timerangeMeeting_e.val(''); tmt_status.text(''); nameU.val(''); nameu.val(''); nameTitle.val(''); desc.val(''); remarks.val('');
+
                             alert('预定会议室成功 :)');
-                            return false;
+                            window.history.pushState(Json,"",url+'?'+e+'!'+I);
+                            window.location = location;
                           },
                           error:function(data,error){
                             alert('预定会议室失败 *_* >>> '+ error.code + '-' + error.message);
                             return false;
                           }
                     });
-                
+
 
                 }
             });
+
+         Con.find({
+                    success:function(Cou){
+
+                        Con.descending('createdAt');
+                        var count = Cou[0],
+                            CCl = Cou.length,
+                            Z_date_l = count.get('date_meeting'),
+                            Z_st_l = count.get('S_time_range_Meeting'),
+                            Z_et_l = count.get('E_time_range_Meeting'),
+                            Z_boss_l = count.get('who_initiate_meeting');
+
+                        count.id == '' || typeof count.id == 'undefined' ? $NoticeText.removeClass('booked').text('暂无预定') : $NoticeText.addClass('booked').text('最新预定：'+ Z_date_l +'{ '+ Z_st_l +' ~ '+ Z_et_l +' }· ' + Z_boss_l);
+
+                        for( var i = 0; i < CCl; i++ ){
+                            var Ci = Cou[i],
+                                Dt = Ci.get('date_meeting'),
+                                Sd = Ci.get('S_time_range_Meeting'),
+                                Ed = Ci.get('E_time_range_Meeting'),
+                                Su = Ci.get('status_meeting'),
+                                Ip = Ci.get('who_initiate_meeting'),
+                                Jp = Ci.get('who_join_meeting'),
+                                Tm = Ci.get('Title_meeting'),
+                                dt = Ci.get('desc_meeting'),
+                                at = Ci.get('attach_meeting');
+                                $('.lMEet' + e).append(modH(false,Dt,Sd,Ed,Su,Ip,Jp,Tm,dt,at));
+                        }
+
+                        Process_zl(Cou,Con);
+
+                    },
+                    error:function(error){
+                        //if(error.code == -1){
+                            //container.append(modH(true,'','','','选择状态','','','','',''));
+                           // return false;
+                       // }
+                        console.log("错误提示: " + error.code + "-" + error.message);
+                    }
+                });
+
+
         }
+
 
         container.append(modH(true,'','','','选择状态','','','','',''));
 
-        function Q_Q(id,Con){
-            Con.descending('createdAt');
-            Con.find({
-                success:function(Cou){
-                    var count = Cou[0],
-                        CCl = Cou.length,
-                        Z_date_l = count.get('date_meeting'),
-                        Z_st_l = count.get('S_time_range_Meeting'),
-                        Z_et_l = count.get('E_time_range_Meeting'),
-                        Z_boss_l = count.get('who_initiate_meeting'),
-                        $NoticeText = $('#NEW' + id),
-                        $contain = $('.lMEet'+id),
-                        $zLss,Ginput,$EditT,$tg,$TG,Ix,$U,$u,$le,$sc,$ks;
-
-                    count.id == '' || typeof count.id == 'undefined' ? $NoticeText.removeClass('booked').text('暂无预定') : $NoticeText.addClass('booked').text('最新预定：'+ Z_date_l +'{ '+ Z_st_l +' ~ '+ Z_et_l +' }· ' + Z_boss_l);
-
-                    for(var i = 0; i < CCl; i++ ){
-                        var Ci = Cou[i],
-                            Dt = Ci.get('date_meeting'),
-                            Sd = Ci.get('S_time_range_Meeting'),
-                            Ed = Ci.get('E_time_range_Meeting'),
-                            Su = Ci.get('status_meeting'),
-                            Ip = Ci.get('who_initiate_meeting'),
-                            Jp = Ci.get('who_join_meeting'),
-                            Tm = Ci.get('Title_meeting'),
-                            dt = Ci.get('desc_meeting'),
-                            at = Ci.get('attach_meeting');
-                            container.append(modH(false,Dt,Sd,Ed,Su,Ip,Jp,Tm,dt,at));
-                    }
-
-                    $zLss = $contain.find('.infoLi.false'), Ginput = $zLss.find('.content input,textarea');
-                    $zLss.find('.date-M,.range-S,.range-E,input,textarea').attr({'readOnly':true,'disabled':true});
-                    $zLss.find('.select-status').hide();
-                    $zLss.find('.tmt-status').css('cursor','default');
-                    Ginput.addClass('zl-in');
-
-                    $contain.on('click','a.tempEdit', function(){
-                        var $this = $(this);
-                        $this.text('提交更改').addClass('up-date').parent().find('input,textarea').removeClass('zl-in').removeAttr('readOnly disabled');
-                    });
-
-                    $contain.on('click','a.tempEdit.up-date', function(){
-                        $tg = $(this).parents('.infoLi.false'), $TG = $tg.parent().find('.infoLi.false'),Ix = Cou[$TG.index($tg)],
-                        $U = $tg.find('.nameU').val().trim().toString(),
-                        $u = $tg.find('.nameu').val().trim().toString(), 
-                        $le = $tg.find('.nameTitle').val().trim().toString(),
-                        $sc = $tg.find('.desc').val().trim().toString(), 
-                        $ks = $tg.find('.remarks').val().trim().toString();
-                        Con.get( Ix.id ,{
-                            success:function(ZL){
-                                ZL.set('who_initiate_meeting', $U);
-                                ZL.set('who_join_meeting', $u);
-                                ZL.set('Title_meeting', $le);
-                                ZL.set('desc_meeting', $sc);
-                                ZL.set('attach_meeting', $ks);
-                                ZL.save();
-                            },
-                            error:function(error){
-                                alert("错误提示: " + error.code + "-" + error.message);
-                            }
-                        });
-                        $(this).removeClass('up-date').text('修改').parent().find('input,textarea').addClass('zl-in').attr({'readOnly':true,'disabled':true});
-                    });
-                   
-                },
-                error:function(error){
-                    alert("错误提示: " + error.code + "-" + error.message);
-                }
-            });
-        }
-
-        art(109,room109); art(111,room111); art(119,room119); art(120,room120);
-        Q_Q(109,Query109); 
-        //Q_Q(111,Query111); 
-        //Q_Q(119,Query119); Q_Q(120,Query120);
-
+        art(109,room109,Query109);
+        art(111,room111,Query111);
+        art(119,room119,Query119);
+        art(120,room120,Query120);
     }
 
     var DatX = function(){
