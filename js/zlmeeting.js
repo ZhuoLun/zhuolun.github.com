@@ -2,7 +2,7 @@
 var Zl = ( function() {
 
     'use strict';
-
+    
     var actionRoomPage = function(){
 
         var hasClass, addClass, removeClass;
@@ -179,7 +179,7 @@ var Zl = ( function() {
     }
 
     var Lean = function(){
-
+        
         //App ID : lsrxlqwkwgwnoc2mqwbrffy5b7ybli9izd2gc3he5fzj1mnn
         //App Key : d5aourqsv5a4d1t3ouou1qhf5oxg61ltxvbri67nu964kpow
         //Master Key : ndt3e8gu25uez1wznf5ndoei1ds8hikj87fr7hco6c8xsemr
@@ -415,9 +415,8 @@ var Zl = ( function() {
 
 
         }
-
-
-        container.append(modH(true,'','','','选择状态','','','','',''));
+        
+        container.append(modH(true, Zl.dd.Mon + '月' + Zl.dd.Day + '日', Zl.dd.Hou + ':' + Zl.dd.Min ,'X : X','选择状态','','','','',''));
 
         art(109,room109,Query109);
         art(111,room111,Query111);
@@ -426,6 +425,7 @@ var Zl = ( function() {
     }
 
     var DatX = function(){
+        
         (function getime(){
             var date = new Date(),
                 NowTime = $('.NowTime'),
@@ -451,8 +451,18 @@ var Zl = ( function() {
                 StrDate += ' [' + warr[week - 1] + '] ';
                 NowTime.text(StrDate);
                 setTimeout(getime,1000);
+                window.Hou_ = hours;
+                window.Dat_ = month;
+                window.Mon_ = day;
+                window.Min_ = minutes;
         }).call(this);
+        window.Hou = Hou_;
+        window.Mon = Dat_;
+        window.Day = Mon_;
+        window.Min = Min_;
+
+        return { Hou:Hou, Mon:Mon, Day:Day, Min:Min };
     }
 
-   return {init:init};
+   return {init:init,dd:DatX()};
 })();
