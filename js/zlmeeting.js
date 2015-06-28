@@ -394,17 +394,18 @@ var Zl = ( function() {
        
        
         
-        container.find('.date-M').keyup(function(event) {
-            var $this = $(this), wL = $this.val().length, oG, reP = Con.toString().replace('R','r'), Ck = $this.next('div'), Cql = 'select count(*),* from Room'+ 109 +' where date_meeting LIKE ?';
+        $('.lMEet' + e ).find('.date-M').keyup(function(event) {
+            var $this = $(this), wL = $this.val().length, oG, reP = Con.toString().replace('R','r'), Ck = $this.next('div'), Cql = 'select count(*),* from Room'+ e +' where date_meeting LIKE ?';
 
             if( wL >= 5 ){
                 oG = $this.val().trim();
                 Ck.fadeIn();
+                Ck.click(function(event){ Ck.hide();  });
                 AV.Query.doCloudQuery( Cql , [oG] ,{
                     success:function(result){
                         var Trt = result.results, count = result.count, _L = Trt.length,u = [];
-
-                        u.push('此刻，这天已有'+ count +'个预定了~');
+                        
+                        u.push('该日期目前已有'+ count +'个预定了');
 
                         for(var o = 0; o < _L; o++){
                             var St = Trt[o].get('S_time_range_Meeting'),
@@ -510,6 +511,7 @@ var Zl = ( function() {
             var r = window.location.href.indexOf('?');
             window.history.pushState(null, "Zl-S individuation", window.location.href.substr(0,r));
         });
+
 
         $WuYu.on({
             focus:function(){
