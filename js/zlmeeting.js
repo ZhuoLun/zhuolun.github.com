@@ -126,57 +126,6 @@ var Zl = ( function() {
 
     }
 
-    var init = function(){
-
-        var $info = $('.iNfo'), $WuYu = $('.meeting-list > ul'), ua = window.navigator.userAgent.toLowerCase().indexOf('chrome'), Width = window.screen.width, uri = window.location.search.slice(1), sTr = uri.split('!'), $notice = $('#newr').show().find('b');
-
-        if( ua < 0){
-           alert('目前为beta版本，请使用chrome浏览器。');
-           $('body').html('目前为beta版本，请使用chrome浏览器。无语， 哦，无语，哦，不。哦，好吧... ');
-           return false;
-        }
-
-        if( Width <= 1366 ) $('.tmt').css('left','-22px');
-
-        if( uri.length > 0 ){
-             $notice.text("  { 会议室 : "+ sTr[0] +" , 发起人 : "+ decodeURI(sTr[1]) +" }");
-        }else{ 
-            $notice.parent().hide();
-        }
-
-        $info.on('click', 'button',function(){
-            $('.mask-zl').addClass('gomask');
-            setTimeout(function(){ $('.mask-zl').hide(); },501);
-            $info.addClass('goscale');
-            var r = window.location.href.indexOf('?');
-            window.history.pushState("","",window.location.href.substr(0,r));
-        });
-
-        $WuYu.on({
-            focus:function(){
-                $(this).parent().addClass('showN');
-            },
-            blur:function(){
-                $(this).parent().removeClass('showN');
-            }
-        },'.tX');
-
-        $WuYu.on('mouseover','.tmt-status',function(sel){
-            var $this = $(this),
-                act = $this.prev();
-            act.children().addClass('sHua');
-            act.on('click','div',function(el){
-                var words = this.innerText;
-                words == '紧急' ? $this.removeClass('novalue').addClass('hlevel').text(words): $this.removeClass('novalue hlevel').text(words);
-                act.children().removeClass('sHua');
-            });
-        });
-
-        Lean();
-        DatX();
-        actionRoomPage();
-
-    }
 
     var Lean = function(){
         
@@ -205,13 +154,15 @@ var Zl = ( function() {
 
                 if( !Po ) {
                     status == '紧急' ? sXs = 'hlevel">紧急' :  sXs = '">随意';
+                    status == '过期' ? sXs = 'history">过期' :  sXs = '">随意';
                     Btn = '<a href="javascript:void(0);" class="tempEdit">修改</a>';
+
                 }else{
                     sXs = 'novalue">' + status;
                     Btn = '<input type="button" value="提交预定" class="btnpost"/>';
                 }
 
-                html = '<li class="infoLi '+ Po +'"><time class="tmt" ><span class="dateMeeting"><input type="text" placeholder="开会日期" class="date-M" maxlength="6" value="'+ DatE +'"/></span><span class="timerangeMeeting"><input type="text" placeholder="开始时间" maxlength="5" value="'+ sDate +'" class="range-S"/> ~ <input type="text" class="range-E" value="'+ eDate +'" maxlength="5" placeholder="结束时间"/></span></time><div class="select-status"><div class="hlevel">紧急</div><div class="">随意</div></div><div class="tmt-status '+ sXs +'</div><div class="content f"><h2 class="sor"><label>会议发起人 ：</label><input type="text" maxlength="3" placeholder="请输入发起人的真实姓名" value="'+ nameU +'" class="tX nameU"/></h2><h2><label>参会人员 ：</label><input type="text" placeholder="请输入参会人员的真实姓名，逗号隔开" class="tX nameu" value="'+ nameu +'"/></h2><h2><label>会议主题 ：</label><input type="text" placeholder="请输入此次会议的主题" class="tX nameTitle" value="'+ nameTitle +'"/></h2><h2><label >摘要 (选填)：</label><input type="text" placeholder="请输入此次会议的摘要" class="tX desc" value="'+ desc +'"/></h2><h2><label class="additional">附加 (选填)：</label><textarea placeholder="此处可以填写本次会议的备注或者特别说明..." class="tX remarks" value="'+ remarks +'"></textarea></h2>'+ Btn +'<div style="clear:both;"></div></div></li>';
+                html = '<li class="infoLi '+ Po +'"><time class="tmt" ><span class="dateMeeting"><input type="text" placeholder="开会日期" class="date-M" maxlength="6" value="'+ DatE +'"/><div class="showTangeTime">当天暂无预定信息</div></span><span class="timerangeMeeting"><input type="text" placeholder="开始时间" maxlength="6" value="'+ sDate +'" class="range-S"/> ~ <input type="text" class="range-E" value="'+ eDate +'" maxlength="6" placeholder="结束时间"/></span></time><div class="select-status"><div class="hlevel">紧急</div><div class="">随意</div></div><div class="tmt-status '+ sXs +'</div><div class="content f"><h2 class="sor"><label>会议发起人 ：</label><input type="text" maxlength="3" placeholder="请输入发起人的真实姓名" value="'+ nameU +'" class="tX nameU"/></h2><h2><label>参会人员 ：</label><input type="text" placeholder="请输入参会人员的真实姓名，逗号隔开" class="tX nameu" value="'+ nameu +'"/></h2><h2><label>会议主题 ：</label><input type="text" placeholder="请输入此次会议的主题" class="tX nameTitle" value="'+ nameTitle +'"/></h2><h2><label >摘要 (选填)：</label><input type="text" placeholder="请输入此次会议的摘要" class="tX desc" value="'+ desc +'"/></h2><h2><label class="additional">附加 (选填)：</label><textarea placeholder="此处可以填写本次会议的备注或者特别说明..." class="tX remarks" value="'+ remarks +'"></textarea></h2>'+ Btn +'<div style="clear:both;"></div></div></li>';
                 return html;
             };
 
@@ -255,6 +206,7 @@ var Zl = ( function() {
                             alert('会议主题不允许为空');
                             return false;
                         }else{
+
                             //if( Ix.id == 'undefined' ){ alert(JSON.stringify(Ix)) }
                             w.get( Ix.id ,{
                                 success:function(ZL){
@@ -281,8 +233,9 @@ var Zl = ( function() {
             }
 
             $('#NO' + e).on('click',':button',function(){
-
+        
                 var btnReserve = $(this),
+                    DA = new Date(),
                     $L = btnReserve.parents('.infoLi'),
                     dateMeeting = $L.find('.date-M'),
                     timerangeMeeting_s = $L.find('.timerangeMeeting .range-S'),
@@ -295,10 +248,18 @@ var Zl = ( function() {
                     remarks = $L.find('.remarks'),
                     $isE = $('.lMEet' + e ),
                     Json = {time:new Date().getTime()},
-                    url = window.location.href;
+                    url = window.location.href,
+                    datE_G = parseInt(dateMeeting.val().trim().replace(/[^0-9]/ig,"")),
+                    datE_T = parseInt(timerangeMeeting_s.val().trim().replace(/[^0-9]/ig,"")),
+                    datE_N = parseInt(DA.getMonth() + 1 + '' + DA.getDate()),
+                    datE_t = parseInt(DA.getHours() + '' + DA.getMinutes()),
+                    order_byTime =parseInt( datE_G + '' + datE_T );
 
                 if( dateMeeting.val().trim() == '' ){
                     alert('开会日期不能为空');
+                    return false;
+                }else if( datE_G < datE_N || datE_N === datE_G && datE_T <= datE_t  ){
+                    alert('What are you 弄啥勒？预定日期已经成为了过去...');
                     return false;
                 }else if( timerangeMeeting_s.val().trim() == '' || timerangeMeeting_e.val().trim() == '' ){
                     alert('会议具体时间段不能为空{开始时间~结束时间}');
@@ -322,8 +283,8 @@ var Zl = ( function() {
                     alert('会议主题不允许为空');
                     return false;
                 }else{
-
-                    d.save({ date_meeting: dateMeeting.val().trim().toString() , S_time_range_Meeting : timerangeMeeting_s.val().trim().toString() ,
+                    
+                    d.save({ order_date:order_byTime, date_meeting: dateMeeting.val().trim().toString() , S_time_range_Meeting : timerangeMeeting_s.val().trim().toString() ,
                         E_time_range_Meeting : timerangeMeeting_e.val().trim().toString() ,
                         status_meeting : tmt_status.text().toString(),
                         who_initiate_meeting : nameU.val().trim().toString(),
@@ -374,54 +335,108 @@ var Zl = ( function() {
                 }
             });
 
-         Con.find({
-                    success:function(Cou){
+        Con.descending("order_date");
 
-                        Con.descending('createdAt');
-                        var count = Cou[0],
-                            CCl = Cou.length,
-                            Z_date_l = count.get('date_meeting'),
-                            Z_st_l = count.get('S_time_range_Meeting'),
-                            Z_et_l = count.get('E_time_range_Meeting'),
-                            Z_boss_l = count.get('who_initiate_meeting');
+        Con.find({
+            success:function(Cou){
 
-                        count.id == '' || typeof count.id == 'undefined' ? $NoticeText.removeClass('booked').text('暂无预定') : $NoticeText.addClass('booked').text('最新预定：'+ Z_date_l +'{ '+ Z_st_l +' ~ '+ Z_et_l +' }· ' + Z_boss_l);
+                var count = Cou[0],
+                    CCl = Cou.length,
+                    Z_order = count.get('order_date'),
+                    Z_date_l = count.get('date_meeting'),
+                    Z_st_l = count.get('S_time_range_Meeting'),
+                    Z_et_l = count.get('E_time_range_Meeting'),
+                    Z_boss_l = count.get('who_initiate_meeting');
 
-                        for( var i = 0; i < CCl; i++ ){
-                            var Ci = Cou[i],
-                                Dt = Ci.get('date_meeting'),
-                                Sd = Ci.get('S_time_range_Meeting'),
-                                Ed = Ci.get('E_time_range_Meeting'),
-                                Su = Ci.get('status_meeting'),
-                                Ip = Ci.get('who_initiate_meeting'),
-                                Jp = Ci.get('who_join_meeting'),
-                                Tm = Ci.get('Title_meeting'),
-                                dt = Ci.get('desc_meeting'),
-                                at = Ci.get('attach_meeting');
-                                $('.lMEet' + e).append(modH(false,Dt,Sd,Ed,Su,Ip,Jp,Tm,dt,at));
+                count.id == '' || typeof count.id == 'undefined' ? $NoticeText.removeClass('booked').text('暂无预定') : $NoticeText.addClass('booked').text('最新预定：'+ Z_date_l +'{ '+ Z_st_l +' ~ '+ Z_et_l +' }· ' + Z_boss_l);
+
+                for( var i = 0; i < CCl; i++ ){
+                    var Ci = Cou[i],
+                        DA = new Date(),
+                        Dt = Ci.get('date_meeting'),
+                        Sd = Ci.get('S_time_range_Meeting'),
+                        Ed = Ci.get('E_time_range_Meeting'),
+                        Su = Ci.get('status_meeting'),
+                        Ip = Ci.get('who_initiate_meeting'),
+                        Jp = Ci.get('who_join_meeting'),
+                        Tm = Ci.get('Title_meeting'),
+                        dt = Ci.get('desc_meeting'),
+                        at = Ci.get('attach_meeting'),
+                        datE_gg = parseInt(Dt.replace(/[^0-9]/ig,"")),
+                        datE_tt = parseInt(Sd.replace(/[^0-9]/ig,"")),
+                        datE_N = parseInt(DA.getMonth() + 1 + '' + DA.getDate()),
+                        datE_t = parseInt(DA.getHours() + '' + DA.getMinutes());
+                        
+                        if( datE_gg < datE_N || datE_N === datE_gg && datE_tt <= datE_t ){
+                            $('.lMEet' + e).append(modH(false,Dt,Sd,Ed,'过期',Ip,Jp,Tm,dt,at));
+                        }else{
+                            $('.lMEet' + e).append(modH(false,Dt,Sd,Ed,Su,Ip,Jp,Tm,dt,at));
                         }
 
-                        Process_zl(Cou,Con);
+                        $('.infoLi').each(function(){
+                            
+                           $(this).find('.select-status + div').hasClass('history') == true ? $(this).find('.tempEdit').hide() : false ;
+                        });
+
+                }
+
+                Process_zl(Cou,Con);
+
+            },
+            error:function(error){
+                //if(error.code == -1){
+                    //container.append(modH(true,'','','','选择状态','','','','',''));
+                   // return false;
+               // }
+                console.log("错误提示: " + error.code + "-" + error.message);
+            }
+        });
+       
+       
+        
+        container.find('.date-M').keyup(function(event) {
+            var $this = $(this), wL = $this.val().length, oG, reP = Con.toString().replace('R','r'), Ck = $this.next('div'), Cql = 'select count(*),* from Room'+ 109 +' where date_meeting LIKE ?';
+
+            if( wL >= 5 ){
+                oG = $this.val().trim();
+                Ck.fadeIn();
+                AV.Query.doCloudQuery( Cql , [oG] ,{
+                    success:function(result){
+                        var Trt = result.results, count = result.count, _L = Trt.length,u = [];
+
+                        u.push('此刻，这天已有'+ count +'个预定了~');
+
+                        for(var o = 0; o < _L; o++){
+                            var St = Trt[o].get('S_time_range_Meeting'),
+                                Et = Trt[o].get('E_time_range_Meeting');
+                                u.push('<span>' + St + '~' + Et + ',</span>');
+                        }
+
+                        Ck.empty().append(u);
+
 
                     },
                     error:function(error){
-                        //if(error.code == -1){
-                            //container.append(modH(true,'','','','选择状态','','','','',''));
-                           // return false;
-                       // }
                         console.log("错误提示: " + error.code + "-" + error.message);
                     }
                 });
 
 
-        }
+               
+
+            }
+
+        });
+
+    }
         
-        container.append(modH(true, Zl.dd.Mon + '月' + Zl.dd.Day + '日', Zl.dd.Hou + ':' + Zl.dd.Min ,'X : X','选择状态','','','','',''));
+        container.append(modH(true, (Zl.dd.Mon < 10 ?'0'+ Zl.dd.Mon:Zl.dd.Mon) + '月' + (Zl.dd.Day < 10 ?'0'+ Zl.dd.Day:Zl.dd.Day)  + '日', (Zl.dd.Hou < 10 ?'0'+ Zl.dd.Hou:Zl.dd.Hou) + ':' + (Zl.dd.Min < 10 ?'0'+ Zl.dd.Min:Zl.dd.Min ), parseInt((Zl.dd.Hou < 10 ?'0'+ parseInt(Zl.dd.Hou + 2) : Zl.dd.Hou + 2 )) +': 00', '选择状态','','','','',''));
 
         art(109,room109,Query109);
         art(111,room111,Query111);
         art(119,room119,Query119);
         art(120,room120,Query120);
+       
     }
 
     var DatX = function(){
@@ -436,7 +451,7 @@ var Zl = ( function() {
                 minutes = date.getMinutes(),
                 seconds = date.getSeconds(),
                 week = date.getDay(),
-                warr = ['周一','周二','周三','周四','周五','周六','周日'],
+                warr = ['周日','周一','周二','周三','周四','周五','周六'],
                 StrDate = year + '年';
                 if( month < 10 )
                 StrDate += '0';
@@ -448,21 +463,81 @@ var Zl = ( function() {
                 StrDate += (hours < 10) ? '0' + hours : hours;
                 StrDate += ((minutes < 10) ? ":0" : ":") + minutes;
                 StrDate += ((seconds < 10) ? ":0" : ":") + seconds;
-                StrDate += ' [' + warr[week - 1] + '] ';
+                StrDate += ' [' + warr[week] + '] ';
                 NowTime.text(StrDate);
                 setTimeout(getime,1000);
                 window.Hou_ = hours;
                 window.Dat_ = month;
                 window.Mon_ = day;
                 window.Min_ = minutes;
+
         }).call(this);
+       
         window.Hou = Hou_;
         window.Mon = Dat_;
         window.Day = Mon_;
         window.Min = Min_;
-
+        
         return { Hou:Hou, Mon:Mon, Day:Day, Min:Min };
     }
+
+    var init = function(){
+
+        var $info = $('.iNfo'),
+            $WuYu = $('.meeting-list > ul'), 
+            ua = window.navigator.userAgent.toLowerCase().indexOf('chrome'), 
+            Width = window.screen.width, uri = window.location.search.slice(1), 
+            sTr = uri.split('!'), $notice = $('#newr').show().find('b');
+
+        if( ua < 0 ){
+           alert('目前为测试版本，请使用chrome浏览器~');
+           $('body').html('目前为beta版本，请使用chrome浏览器。无语， 哦，无语，哦，不。哦，好吧... ');
+           return false;
+        }
+
+        if( Width <= 1366 ) {  $WuYu.addClass('sMall'); }
+
+        if( uri.length > 0 ){
+             $notice.text("  { 会议室 : "+ sTr[0] +" , 发起人 : "+ decodeURI(sTr[1]) +" }");
+        }else{ 
+            $notice.parent().hide();
+        }
+
+        $info.on('click', 'button',function(){
+            $('.mask-zl').addClass('gomask');
+            setTimeout(function(){ $('.mask-zl').hide(); },501);
+            $info.addClass('goscale');
+            var r = window.location.href.indexOf('?');
+            window.history.pushState(null, "Zl-S individuation", window.location.href.substr(0,r));
+        });
+
+        $WuYu.on({
+            focus:function(){
+                $(this).parent().addClass('showN');
+            },
+            blur:function(){
+                $(this).parent().removeClass('showN');
+            }
+        },'.tX');
+
+        $WuYu.on('mouseover','.tmt-status',function(sel){
+            var $this = $(this),
+                act = $this.prev(), words;
+
+                act.children().addClass('sHua');
+                act.on('click','div',function(el){
+                words = this.innerText;
+                words == '紧急' ? $this.removeClass('novalue').addClass('hlevel').text(words): $this.removeClass('novalue hlevel').text(words);
+                act.children().removeClass('sHua');
+            });
+        });
+
+        Lean();
+        DatX();
+        actionRoomPage();
+
+    }
+
 
    return {init:init,dd:DatX()};
 })();
