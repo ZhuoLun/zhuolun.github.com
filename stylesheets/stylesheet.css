@@ -20,7 +20,7 @@ a{ color: #ccc; text-decoration: none; }
 .sD:nth-child(2){ left: 25%; outline:1px solid #FF002B; background:#FF002B; }
 .sD:nth-child(3){ left: 50%; outline:1px solid #FFA900; background:#FFA900; }
 .sD:nth-child(4){ left: 75%; outline:1px solid #00A753; background:#00A753; }
-    .intro-content{ position: absolute; left:50%; top:50%; padding: 0 1em; width: 87.4452%;  transition:transform .6s, top .6s; -webkit-transition:transform .6s, top .6s;-webkit-transform:translateX(-50%); transform:translateY(-50%) translateX(-50%); }
+    .intro-content{ position: absolute; left:50%; top:50%; padding: 0 1em; width: 87.4452%;  transition:transform .6s, top .6s; -webkit-transition:transform .6s, top .6s;-webkit-transform:translate(-50%,-50%); transform:translateY(-50%) translateX(-50%); }
     .profile{ margin:0 auto; width: 100%; }
         .profile img{ max-width: 100%; opacity: .6; margin-bottom: 2em; }
         .intro-content figcaption, .back{ transition:opacity .3s; -webkit-transition:opacity .3s; }
