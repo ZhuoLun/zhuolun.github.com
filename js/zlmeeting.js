@@ -251,7 +251,7 @@ var Zl = ( function() {
                     url = window.location.href,
                     datE_G = parseInt(dateMeeting.val().trim().replace(/[^0-9]/ig,"")),
                     datE_T = parseInt(timerangeMeeting_s.val().trim().replace(/[^0-9]/ig,"")),
-                    parseInt( ( DA.getMonth() + 1 ) + '' + ( DA.getDate()<10?'0' + DA.getDate():DA.getDate())),
+                    datE_N = parseInt( ( DA.getMonth() + 1 ) + '' + ( DA.getDate()<10?'0' + DA.getDate():DA.getDate())),
                     datE_t = parseInt(DA.getHours() + '' + DA.getMinutes()),
                     order_byTime =parseInt( datE_G + '' + datE_T );
 
