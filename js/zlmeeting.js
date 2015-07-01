@@ -364,9 +364,9 @@ var Zl = ( function() {
                         at = Ci.get('attach_meeting'),
                         datE_gg = parseInt(Dt.replace(/[^0-9]/ig,"")),
                         datE_tt = parseInt(Sd.replace(/[^0-9]/ig,"")),
-                        datE_N = parseInt(DA.getMonth() + 1 + '' + DA.getDate()),
+                        datE_N = parseInt( ( DA.getMonth() + 1 ) + '' + ( DA.getDate()<10?'0' + DA.getDate():DA.getDate())),
                         datE_t = parseInt(DA.getHours() + '' + DA.getMinutes());
-                        
+
                         if( datE_gg < datE_N || datE_N === datE_gg && datE_tt <= datE_t ){
                             $('.lMEet' + e).append(modH(false,Dt,Sd,Ed,'过期',Ip,Jp,Tm,dt,at));
                         }else{
