@@ -253,9 +253,9 @@ var Zl = ( function() {
                     datE_T = parseInt( timerangeMeeting_s.val().trim().replace(/[^0-9]/ig,"")  ),
                     datE_N = parseInt( ( DA.getMonth() + 1 ) + '' + ( DA.getDate()<10?'0' + DA.getDate():DA.getDate())),
                     datE_t = parseInt(DA.getHours() + '' + DA.getMinutes()),
-                    order_byTime = datE_G + '' + ( datE_T.length < 4?'0'+datE_T:datE_T );
+                    order_byTime = parseInt( datE_G + '' + ( datE_T.length < 4?'0'+datE_T:datE_T ) );
 
-
+                
                 if( dateMeeting.val().trim() == '' ){
                     alert('开会日期不能为空');
                     return false;
