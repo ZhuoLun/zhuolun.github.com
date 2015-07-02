@@ -255,6 +255,7 @@ var Zl = ( function() {
                     datE_t = parseInt(DA.getHours() + '' + DA.getMinutes()),
                     order_byTime = datE_G + '' + ( datE_T.length < 4?'0'+datE_T:datE_T );
 
+
                 if( dateMeeting.val().trim() == '' ){
                     alert('开会日期不能为空');
                     return false;
