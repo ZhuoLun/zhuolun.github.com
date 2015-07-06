@@ -318,7 +318,7 @@ var Zl = ( function() {
                                 Process_zl(wuyu,Con);
                             }});
 
-                            $NoticeText.addClass('booked').text('最新预定：'+ D +'{ '+ S +' ~ '+ E +' }· ' + I);
+                            $NoticeText.addClass('booked').html( D +'{ '+ S +' ~ '+ E +' }· ' + I);
 
                             dateMeeting.val(''); timerangeMeeting_s.val(''); timerangeMeeting_e.val(''); tmt_status.text(''); nameU.val(''); nameu.val(''); nameTitle.val(''); desc.val(''); remarks.val('');
 
@@ -341,15 +341,24 @@ var Zl = ( function() {
         Con.find({
             success:function(Cou){
 
-                var count = Cou[0],
-                    CCl = Cou.length,
-                    Z_order = count.get('order_date'),
-                    Z_date_l = count.get('date_meeting'),
-                    Z_st_l = count.get('S_time_range_Meeting'),
-                    Z_et_l = count.get('E_time_range_Meeting'),
-                    Z_boss_l = count.get('who_initiate_meeting');
+                var CCl = Cou.length,
+                    ARr = [], cyt = Cou[0];
+                    ARr.push('<span class="woi">');
+                cyt.id == '' || typeof cyt.id == 'undefined' ? $NoticeText.removeClass('booked').text('暂无预定') : (function(){
+                    for( var i = 0; i < CCl; i++ ){
+                        var count = Cou[i],
+                            Z_order = count.get('order_date'),
+                            Z_date_l = count.get('date_meeting'),
+                            Z_st_l = count.get('S_time_range_Meeting'),
+                            Z_et_l = count.get('E_time_range_Meeting'),
+                            Z_boss_l = count.get('who_initiate_meeting');
 
-                count.id == '' || typeof count.id == 'undefined' ? $NoticeText.removeClass('booked').text('暂无预定') : $NoticeText.addClass('booked').text('最新预定：'+ Z_date_l +'{ '+ Z_st_l +' ~ '+ Z_et_l +' }· ' + Z_boss_l);
+                        ARr.push( Z_date_l +'{ '+ Z_st_l +' ~ '+ Z_et_l +' }· ' + Z_boss_l +'<br/>' );
+                    }
+                    ARr.push('</span>');
+                }).call(this);
+                
+                $NoticeText.addClass('booked').html(ARr.join(''));
 
                 for( var i = 0; i < CCl; i++ ){
                     var Ci = Cou[i],
