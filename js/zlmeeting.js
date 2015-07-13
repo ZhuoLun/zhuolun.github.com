@@ -162,7 +162,7 @@ var Zl = ( function() {
                     Btn = '<input type="button" value="提交预定" class="btnpost"/>';
                 }
 
-                html = '<li class="infoLi '+ Po +'"><time class="tmt" ><span class="dateMeeting"><input type="text" placeholder="开会日期" class="date-M" maxlength="6" value="'+ DatE +'"/><div class="showTangeTime">当天暂无预定信息</div></span><span class="timerangeMeeting"><input type="text" placeholder="开始时间" maxlength="6" value="'+ sDate +'" class="range-S"/> ~ <input type="text" class="range-E" value="'+ eDate +'" maxlength="6" placeholder="结束时间"/></span></time><div class="select-status"><div class="hlevel">紧急</div><div class="">随意</div></div><div class="tmt-status '+ sXs +'</div><div class="content f"><h2 class="sor"><label>会议发起人 ：</label><input type="text" maxlength="3" placeholder="请输入发起人的真实姓名" value="'+ nameU +'" class="tX nameU"/></h2><h2><label>参会人员 ：</label><input type="text" placeholder="请输入参会人员的真实姓名，逗号隔开" class="tX nameu" value="'+ nameu +'"/></h2><h2><label>会议主题 ：</label><input type="text" placeholder="请输入此次会议的主题" class="tX nameTitle" value="'+ nameTitle +'"/></h2><h2><label >摘要 (选填)：</label><input type="text" placeholder="请输入此次会议的摘要" class="tX desc" value="'+ desc +'"/></h2><h2><label class="additional">附加 (选填)：</label><textarea placeholder="此处可以填写本次会议的备注或者特别说明..." class="tX remarks" value="'+ remarks +'"></textarea></h2>'+ Btn +'<div style="clear:both;"></div></div></li>';
+                html = '<li class="infoLi '+ Po +'"><time class="tmt" ><span class="dateMeeting"><input type="text" placeholder="开会日期" class="date-M" maxlength="6" value="'+ DatE +'"/><div class="showTangeTime">当天暂无预定信息</div></span><span class="timerangeMeeting"><input type="text" placeholder="开始时间" maxlength="6" value="'+ sDate +'" class="range-S"/> ~ <input type="text" class="range-E" value="'+ eDate +'" maxlength="6" placeholder="结束时间"/></span></time><div class="select-status"><div class="hlevel">紧急</div><div class="">随意</div></div><div class="tmt-status '+ sXs +'</div><div class="content f"><h2 class="sor"><label>会议发起人 ：</label><input type="text" maxlength="3" placeholder="请输入发起人的真实姓名" value="'+ nameU +'" class="tX nameU"/></h2><h2><label>参会人员 ：</label><input type="text" placeholder="请输入参会人员的真实姓名，逗号隔开" class="tX nameu" value="'+ nameu +'"/></h2><h2><label>会议主题 ：</label><input type="text" placeholder="请输入此次会议的主题" class="tX nameTitle" value="'+ nameTitle +'"/></h2><h2><label >摘要 (选填)：</label><input type="text" placeholder="请输入此次会议的摘要" class="tX desc" value="'+ desc +'"/></h2><h2><label class="additional">附加 (选填)：</label><textarea placeholder="此处可以填写本次会议的备注或者特别说明..." class="tX remarks" value="'+ remarks +'">'+ remarks +'</textarea></h2>'+ Btn +'<div style="clear:both;"></div></div></li>';
                 return html;
             };
 
@@ -285,14 +285,7 @@ var Zl = ( function() {
                     return false;
                 }else{
                     
-                    d.save({ order_date:order_byTime, date_meeting: dateMeeting.val().trim().toString() , S_time_range_Meeting : timerangeMeeting_s.val().trim().toString() ,
-                        E_time_range_Meeting : timerangeMeeting_e.val().trim().toString() ,
-                        status_meeting : tmt_status.text().toString(),
-                        who_initiate_meeting : nameU.val().trim().toString(),
-                        who_join_meeting : nameu.val().trim().toString(),
-                        Title_meeting: nameTitle.val().trim().toString(),
-                        desc_meeting: desc.val().trim().toString(),
-                        attach_meeting: remarks.val().trim().toString() },{
+                    d.save({ order_date:order_byTime, date_meeting: dateMeeting.val().trim().toString() , S_time_range_Meeting : timerangeMeeting_s.val().trim().toString() , E_time_range_Meeting : timerangeMeeting_e.val().trim().toString() , status_meeting : tmt_status.text().toString(), who_initiate_meeting : nameU.val().trim().toString(), who_join_meeting : nameu.val().trim().toString(), Title_meeting: nameTitle.val().trim().toString(), desc_meeting: desc.val().trim().toString(),      attach_meeting: remarks.val().trim().toString() },{
                         success:function(Zl_s_iD){
                             var zL = Zl_s_iD,
                                 lpo, Ginput, D = zL.get('date_meeting'),
